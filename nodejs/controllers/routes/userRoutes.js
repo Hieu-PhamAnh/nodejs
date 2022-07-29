@@ -15,13 +15,19 @@ router.post("/dangmoi", async (req, res) => {
 });
 
 router.get("/:id", async (req, res) => {
-  const { id } = req.params;
-  const data = await User.findById(id);
-  return res.status(200).json({
-    message: "thanh cong",
-    id: id,
-    user: data,
-  });
+  try {
+    const { id } = req.params;
+    const data = await User.findById(id);
+    return res.status(200).json({
+      message: "thanh cong",
+      id: id,
+      user: data,
+    });
+  } catch (error) {
+    return res.status(422).json({
+      message: "loi",
+    });
+  }
 });
 
 router.delete("/:id", async (req, res) => {
