@@ -71,5 +71,14 @@ const UserController = {
       });
     }
   },
+  handleLogin: async (req, res) => {
+    try {
+    } catch (error) {
+      console.log(error);
+      return res.status(422).json({
+        message: "loi",
+      });
+    }
+  },
 };
 module.exports = UserController;
