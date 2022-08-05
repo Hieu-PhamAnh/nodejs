@@ -4,9 +4,26 @@ const url =
 
 async function getUserAgeUp20() {
   let pipeline = [
-    { $project: { name: 1, age: 1, address: 1 } },
-    { $match: { age: { $gte: 21 }, "address.name": "Ha Dong" } },
-    { $group: { name: "$name", adrress: "$adrress", age: "$age" } },
+    {
+      $match: {
+        age: {
+          $gte: 21,
+        },
+        "address.name": "Ha Dong",
+      },
+    },
+    {
+      $project: {
+        name: 1,
+        age: 1,
+        address: 1,
+      },
+    },
+    {
+      $sort: {
+        age: 1,
+      },
+    },
   ];
   const client = new MongoClient(url);
   try {
