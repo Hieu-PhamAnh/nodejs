@@ -4,11 +4,14 @@ const express = require("express");
 const app = express();
 const port = 3000;
 const router = require("./routes/index");
+const { MongoClient } = require("mongodb");
+const url = `mongodb+srv://hieu:hieu123456@hieu.zjelqqh.mongodb.net/?retryWrites=true&w=majority`;
 
 const connectDB = async () => {
   try {
     await mongoose.connect(
-      `mongodb+srv://hieu:hieu123456@hieu.zjelqqh.mongodb.net/?retryWrites=true&w=majority`
+      url
+      // `mongodb+srv://hieu:hieu123456@hieu.zjelqqh.mongodb.net/?retryWrites=true&w=majority`
     );
     console.log("MongoDB Connected...");
   } catch (error) {
