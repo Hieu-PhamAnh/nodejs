@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-const userRoute = require("./controllers/routes/userRoutes");
 const express = require("express");
 const app = express();
 const port = 3000;
+const router = require("./routes/index");
 
 const connectDB = async () => {
   try {
@@ -18,7 +18,7 @@ const connectDB = async () => {
 connectDB();
 
 app.use(bodyParser.json());
-app.use("/", userRoute);
+app.use("/api/v1", router);
 // app.get("/", (req, res) => {
 //   res.send("Hello World!?");
 // });

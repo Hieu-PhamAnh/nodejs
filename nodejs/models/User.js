@@ -1,9 +1,14 @@
 const mongoose = require("mongoose");
+const Address = require("./Address");
 const Schema = mongoose.Schema;
 const User = new Schema(
   {
-    ten: { type: String },
-    password: { type: String },
+    name: { type: String },
+    age: { type: Number },
+    email: { type: String },
+    password: { type: String, min: 8 },
+    address: { type: Object },
+    role: { type: [String] },
   },
   {
     timestamps: true,
