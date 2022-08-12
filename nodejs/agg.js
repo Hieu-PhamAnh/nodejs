@@ -34,29 +34,29 @@ async function getUserAgeUp20() {
       console.log(user);
     });
     console.log("Số bản ghi: " + len);
-    await client.close();
-  } catch (error) {
-    console.log(error);
-    await client.close();
-  }
-}
-
-async function getUserAllAtt() {
-  let pipeline = [];
-  const client = new MongoClient(url);
-  try {
-    const aggCursor = client.db("test").collection("users").aggregate(pipeline);
-    let len = 0;
-    await aggCursor.forEach((user) => {
-      len++;
-      console.log(user);
-    });
-    console.log("Số bản ghi: " + len);
   } catch (error) {
     console.log(error);
   } finally {
-    await client.close();
+    client.close();
   }
 }
+
+// async function getUserAllAtt() {
+//   let pipeline = [];
+//   const client = new MongoClient(url);
+//   try {
+//     const aggCursor = client.db("test").collection("users").aggregate(pipeline);
+//     let len = 0;
+//     await aggCursor.forEach((user) => {
+//       len++;
+//       console.log(user);
+//     });
+//     console.log("Số bản ghi: " + len);
+//   } catch (error) {
+//     console.log(error);
+//   } finally {
+//     await client.close();
+//   }
+// }
 
 getUserAgeUp20();

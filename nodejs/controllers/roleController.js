@@ -7,7 +7,7 @@ const RoleController = {
       return res.status(200).json(newRole);
     } catch (error) {
       console.log(error);
-      return res.status(422).json({
+      return res.status(400).json({
         message: "Loi",
       });
     }
@@ -23,7 +23,7 @@ const RoleController = {
       });
     } catch (error) {
       console.log(error);
-      return res.status(422).json({
+      return res.status(400).json({
         message: "loi",
       });
     }
@@ -39,7 +39,7 @@ const RoleController = {
       });
     } catch (error) {
       console.log(error);
-      return res.status(422).json({
+      return res.status(400).json({
         message: "loi",
       });
     }
@@ -55,7 +55,7 @@ const RoleController = {
       });
     } catch (error) {
       console.log(error);
-      return res.status(422).json({
+      return res.status(400).json({
         message: "loi",
       });
     }

@@ -28,7 +28,7 @@ async function getUserAgeUp20() {
   const client = new MongoClient(url);
   try {
     const aggCursor = client.db("test").collection("users").aggregate(pipeline);
-    await aggCursor.forEach((user) => {
+    aggCursor.forEach((user) => {
       console.log(user);
     });
     await client.close();
