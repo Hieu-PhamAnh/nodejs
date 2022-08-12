@@ -29,7 +29,7 @@ async function getUserAgeUp20() {
   try {
     const aggCursor = client.db("test").collection("users").aggregate(pipeline);
     let len = 0;
-    await aggCursor.forEach((user) => {
+    aggCursor.forEach((user) => {
       len++;
       console.log(user);
     });
