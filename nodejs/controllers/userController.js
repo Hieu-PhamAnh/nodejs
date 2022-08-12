@@ -118,6 +118,8 @@ const UserController = {
   },
   handleQueryAgeAddress: async (req, res) => {
     const [page, lim] = [0, 10];
+    // const { page, lim } = req.params;
+    console.log(req.params);
     const pipeline2 = [
       {
         $unwind: "$address",
@@ -151,7 +153,6 @@ const UserController = {
     ];
     try {
       const data = await User.aggregate(pipeline2);
-      // console.log(data.length);
       return res.status(200).json({
         tong_so_document: data.length,
         data: data,
@@ -171,6 +172,7 @@ const UserController = {
           name: 1,
           age: 1,
           address: 1,
+          role: 1,
         },
       },
       {
@@ -203,7 +205,6 @@ const UserController = {
     const [page, lim] = [0, 10];
     const { info } = req.params;
     const pipeline = [
-      {},
       {
         $project: {
           name: 1,
