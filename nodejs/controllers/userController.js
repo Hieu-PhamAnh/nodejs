@@ -202,7 +202,27 @@ const UserController = {
   handleSearch: async (req, res) => {
     const [page, lim] = [0, 10];
     const { info } = req.params;
-    const pipeline = [];
+    const pipeline = [
+      {},
+      {
+        $project: {
+          name: 1,
+          age: 1,
+          address: 1,
+        },
+      },
+      {
+        $sort: {
+          age: 1,
+        },
+      },
+      {
+        $skip: page * lim,
+      },
+      {
+        $limit: lim,
+      },
+    ];
     try {
       const data = await User.aggregate(pipeline);
       console.log(data.length);
