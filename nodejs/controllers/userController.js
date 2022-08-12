@@ -79,16 +79,23 @@ const UserController = {
   },
   handleLogin: async (req, res) => {
     try {
-      const { logEmail, logPassword } = req.body;
-      const user = await User.find({ email: logEmail });
-      if (user.password != logPassword) {
+      const { email, password } = req.body;
+      console.log(email, password);
+      const user = await User.findOne({ email: email });
+      console.log(user);
+      if (!user) {
+        return res.status(404).json({
+          message: " tai khoan khong ton tai",
+        });
+      }
+      if (user.password != password) {
         return res.status(401).json({
           message: "sai mat khau",
         });
       }
       return res.status(200).json({
         message: "dang nhap thanh cong",
-        data: user,
+        //data: user,
       });
     } catch (error) {
       console.log(error);
@@ -97,10 +104,35 @@ const UserController = {
       });
     }
   },
-  handleAgg: async (req, res) => {
+  handleSeachAgeAddress: async (req, res) => {
+    const [page, skip] = [0, 10];
+    const pipeline = [
+      {
+        $match: {
+          age: {
+            $gt: 20,
+          },
+          // "address.name": "Ha Dong",
+        },
+      },
+      {
+        $project: {
+          name: 1,
+          age: 1,
+          address: 1,
+        },
+      },
+      {
+        $sort: {
+          age: 1,
+        },
+      },
+    ];
     try {
-      User.aggregate({ age: { $gt: 19 } }).then((data) => {
-        console.log(data);
+      const data = await User.aggregate(pipeline);
+      console.log(data.length);
+      return res.status(200).json({
+        data: data,
       });
       // User.find({ age: { $gt: 19 } }).then((data) => {
       //   console.log(data);

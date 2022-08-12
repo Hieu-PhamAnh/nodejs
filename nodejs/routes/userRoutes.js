@@ -9,4 +9,8 @@ userRouter.get("/:id", UserController.handleGet);
 userRouter.delete("/:id", UserController.handleDelete);
 
 userRouter.put("/:id", UserController.handleUpdate);
+
+userRouter.post("/login", UserController.handleLogin);
+
+userRouter.post("/search", UserController.handleSeachAgeAddress);
 module.exports = userRouter;
