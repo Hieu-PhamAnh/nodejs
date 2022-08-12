@@ -14,7 +14,6 @@ const UserController = {
   handleCreate: async (req, res) => {
     try {
       const newUser = await User.create(req.body);
-      //await newUser.save();
       return res.status(200).json(newUser);
     } catch (error) {
       console.log(error);
@@ -35,7 +34,7 @@ const UserController = {
         });
       } else {
         return res.status(404).json({
-          message: "khong tim thay",
+          message: "nguoi dung khong ton tai",
         });
       }
     } catch (error) {
@@ -49,11 +48,17 @@ const UserController = {
     try {
       const { id } = req.params;
       const data = await User.findByIdAndUpdate(id, req.body);
-      return res.status(200).json({
-        message: "thanh cong",
-        id: id,
-        user: data,
-      });
+      if (data) {
+        return res.status(200).json({
+          message: "sua thanh cong",
+          id: id,
+          user: data,
+        });
+      } else {
+        return res.status(404).json({
+          message: "nguoi dung khong ton tai",
+        });
+      }
     } catch (error) {
       console.log(error);
       return res.status(400).json({
@@ -65,11 +70,17 @@ const UserController = {
     try {
       const { id } = req.params;
       const data = await User.findByIdAndDelete(id);
-      return res.status(200).json({
-        message: "thanh cong",
-        id: id,
-        user: data,
-      });
+      if (data) {
+        return res.status(200).json({
+          message: "xoa thanh cong",
+          id: id,
+          user: data,
+        });
+      } else {
+        return res.status(404).json({
+          message: "nguoi dung khong ton tai",
+        });
+      }
     } catch (error) {
       console.log(error);
       return res.status(400).json({
@@ -132,11 +143,9 @@ const UserController = {
       const data = await User.aggregate(pipeline);
       console.log(data.length);
       return res.status(200).json({
+        tong_so_document: data.length,
         data: data,
       });
-      // User.find({ age: { $gt: 19 } }).then((data) => {
-      //   console.log(data);
-      // });
     } catch (error) {
       console.log(error);
       return res.status(400).json({

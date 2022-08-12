@@ -12,5 +12,5 @@ userRouter.put("/:id", UserController.handleUpdate);
 
 userRouter.post("/login", UserController.handleLogin);
 
-userRouter.post("/search", UserController.handleSeachAgeAddress);
+userRouter.post("/query", UserController.handleSeachAgeAddress);
 module.exports = userRouter;
