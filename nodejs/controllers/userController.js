@@ -25,6 +25,7 @@ const UserController = {
   handleGet: async (req, res) => {
     try {
       const { id } = req.params;
+      // console.log(req.params);
       const data = await User.findById(id);
       if (data) {
         return res.status(200).json({
@@ -150,7 +151,7 @@ const UserController = {
     ];
     try {
       const data = await User.aggregate(pipeline2);
-      console.log(data.length);
+      // console.log(data.length);
       return res.status(200).json({
         tong_so_document: data.length,
         data: data,
@@ -162,20 +163,9 @@ const UserController = {
       });
     }
   },
-  handleSearch: async (req, res) => {
+  handleGetAllAtt: async (req, res) => {
     const [page, lim] = [0, 10];
-    const pipeline2 = [
-      {
-        $unwind: "$address",
-      },
-      {
-        $match: {
-          age: {
-            $gt: 20,
-          },
-          "address.name": "Ha Dong",
-        },
-      },
+    const pipeline = [
       {
         $project: {
           name: 1,
@@ -196,7 +186,25 @@ const UserController = {
       },
     ];
     try {
-      const data = await User.aggregate(pipeline2);
+      const data = await User.aggregate(pipeline);
+      console.log(data.length);
+      return res.status(200).json({
+        tong_so_document: data.length,
+        data: data,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(400).json({
+        message: "loi",
+      });
+    }
+  },
+  handleSearch: async (req, res) => {
+    const [page, lim] = [0, 10];
+    const { info } = req.params;
+    const pipeline = [];
+    try {
+      const data = await User.aggregate(pipeline);
       console.log(data.length);
       return res.status(200).json({
         tong_so_document: data.length,
