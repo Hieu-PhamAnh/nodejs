@@ -80,5 +80,20 @@ const UserController = {
       });
     }
   },
+  handleAgg: async (req, res) => {
+    try {
+      User.aggregate({ age: { $gt: 19 } }).then((data) => {
+        console.log(data);
+      });
+      // User.find({ age: { $gt: 19 } }).then((data) => {
+      //   console.log(data);
+      // });
+    } catch (error) {
+      console.log(error);
+      return res.status(422).json({
+        message: "loi",
+      });
+    }
+  },
 };
 module.exports = UserController;

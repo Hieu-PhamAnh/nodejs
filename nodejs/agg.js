@@ -52,9 +52,9 @@ async function getUserAllAtt() {
       console.log(user);
     });
     console.log("Số bản ghi: " + len);
-    await client.close();
   } catch (error) {
     console.log(error);
+  } finally {
     await client.close();
   }
 }

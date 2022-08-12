@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const Permission = new Schema(
+const permissionSchema = new Schema(
   {
     name: { type: String },
     description: { type: String },
@@ -9,5 +9,5 @@ const Permission = new Schema(
     timestamps: true,
   }
 );
-
-module.exports = mongoose.model("Permission", Permission);
+const Permission = mongoose.model("Permission", permissionSchema);
+module.exports = Permission;
