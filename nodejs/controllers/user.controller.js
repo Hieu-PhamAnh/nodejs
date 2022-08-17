@@ -168,11 +168,21 @@ const UserController = {
     const [page, lim] = [0, 10];
     const pipeline = [
       {
+        $lookup: {
+          from: "roles",
+          localField: "role._id",
+          foreignField: "_id",
+          as: "roleList",
+        },
+      },
+      {
         $project: {
-          name: 1,
-          age: 1,
-          address: 1,
-          role: 1,
+          role: 0,
+        },
+      },
+      {
+        $addFields: {
+          role: "$roleList",
         },
       },
       {
@@ -241,33 +251,6 @@ const UserController = {
       return res.status(200).json({
         tong_so_document: data.length,
         data: data,
-      });
-    } catch (error) {
-      console.log(error);
-      return res.status(500).json({
-        message: "loi",
-      });
-    }
-  },
-  handleValidate: async (req, res) => {
-    try {
-      const { email, password } = req.body;
-      console.log(email, password);
-      const user = await User.findOne({ email: email });
-      console.log(user);
-      if (!user) {
-        return res.status(404).json({
-          message: " tai khoan khong ton tai",
-        });
-      }
-      if (user.password != password) {
-        return res.status(401).json({
-          message: "sai mat khau",
-        });
-      }
-      return res.status(200).json({
-        message: "dang nhap thanh cong",
-        //data: user,
       });
     } catch (error) {
       console.log(error);

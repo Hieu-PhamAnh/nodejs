@@ -7,7 +7,7 @@ const userSchema = new Schema(
     email: { type: String },
     password: { type: String, min: 8 },
     address: [{ type: Object }],
-    role: [{ type: Schema.Types.ObjectId, ref: "Role" }],
+    role: [{ type: { _id: Schema.Types.ObjectId, name: String } }],
   },
   {
     timestamps: true,
