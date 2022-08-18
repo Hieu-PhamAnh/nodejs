@@ -23,14 +23,15 @@ const roleMiddleware = {
         message: "role da ton tai",
       });
     }
-    permission.array.forEach((element) => async () => {
-      let permission = await Permission.findOne({ _id: element });
-      if (!permission) {
+    for (index in permission) {
+      let per = permission[index];
+      let PerObject = await Permission.findOne({ _id: per });
+      if (!PerObject) {
         return res.status(400).json({
           message: "permission khong ton tai",
         });
       }
-    });
+    }
     next();
   },
 };
