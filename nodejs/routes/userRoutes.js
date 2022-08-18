@@ -11,7 +11,11 @@ userRouter.post(
   UserController.handleCreate
 );
 userRouter.get("/:id", UserController.handleGet);
-userRouter.delete("/:id", UserController.handleDelete);
+userRouter.delete(
+  "/:id",
+  userMiddleware.checkExist,
+  UserController.handleDelete
+);
 userRouter.put("/:id", UserController.handleUpdate);
 userRouter.post(
   "/login",

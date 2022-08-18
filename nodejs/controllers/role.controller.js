@@ -3,7 +3,6 @@ const RoleController = {
   handleCreate: async (req, res) => {
     try {
       const newRole = await Role.create(req.body);
-      await newRole.save();
       return res.status(200).json(newRole);
     } catch (error) {
       console.log(error);
