@@ -121,9 +121,6 @@ const UserController = {
     // const { page, lim } = req.params;
     console.log(req.params);
     const pipeline2 = [
-      // {
-      //   $unwind: "$address",
-      // },
       {
         $match: {
           age: {
@@ -176,13 +173,27 @@ const UserController = {
         },
       },
       {
-        $project: {
-          role: 0,
+        $lookup: {
+          from: "permissions",
+          localField: "roleList.permission",
+          foreignField: "_id",
+          as: "permissionList",
         },
       },
       {
-        $addFields: {
-          role: "$roleList",
+        $project: {
+          _id: 0,
+          name: 1,
+          age: 1,
+          email: 1,
+          // roleList: 1,
+          // perList: 1,
+          "roleList.name": 1,
+          "roleList.description": 1,
+          "roleList.permission": 1,
+          "permissionList.name": 1,
+          "permissionList.description": 1,
+          "permissionList.permission": 1,
         },
       },
       {
@@ -213,7 +224,7 @@ const UserController = {
     if (name !== "") {
       condition.name = name;
     }
-    if (age !== 0) {
+    if (age > 0) {
       condition.age = age;
     }
     if (email !== "") {
