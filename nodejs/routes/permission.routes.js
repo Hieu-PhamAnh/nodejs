@@ -1,5 +1,5 @@
 const express = require("express");
-const PermissionController = require("../controllers/permissionController");
+const PermissionController = require("../controllers/permission.controller");
 const permissionRouter = express.Router();
 
 permissionRouter.post("/", PermissionController.handleCreate);

@@ -17,7 +17,7 @@ const UserController = {
       return res.status(200).json(newUser);
     } catch (error) {
       console.log(error);
-      return res.status(400).json({
+      return res.status(500).json({
         message: "Loi",
       });
     }
@@ -40,7 +40,7 @@ const UserController = {
       }
     } catch (error) {
       console.log(error);
-      return res.status(400).json({
+      return res.status(500).json({
         message: "loi",
       });
     }
@@ -62,7 +62,7 @@ const UserController = {
       }
     } catch (error) {
       console.log(error);
-      return res.status(400).json({
+      return res.status(500).json({
         message: "loi",
       });
     }
@@ -84,7 +84,7 @@ const UserController = {
       }
     } catch (error) {
       console.log(error);
-      return res.status(400).json({
+      return res.status(500).json({
         message: "loi",
       });
     }
@@ -111,7 +111,7 @@ const UserController = {
       });
     } catch (error) {
       console.log(error);
-      return res.status(400).json({
+      return res.status(500).json({
         message: "loi",
       });
     }
@@ -121,9 +121,6 @@ const UserController = {
     // const { page, lim } = req.params;
     console.log(req.params);
     const pipeline2 = [
-      {
-        $unwind: "$address",
-      },
       {
         $match: {
           age: {
@@ -159,7 +156,7 @@ const UserController = {
       });
     } catch (error) {
       console.log(error);
-      return res.status(400).json({
+      return res.status(500).json({
         message: "loi",
       });
     }
@@ -168,16 +165,35 @@ const UserController = {
     const [page, lim] = [0, 10];
     const pipeline = [
       {
-        $project: {
-          name: 1,
-          age: 1,
-          address: 1,
-          role: 1,
+        $lookup: {
+          from: "roles",
+          localField: "role._id",
+          foreignField: "_id",
+          as: "roleList",
         },
       },
       {
-        $sort: {
+        $lookup: {
+          from: "permissions",
+          localField: "roleList.permission",
+          foreignField: "_id",
+          as: "permissionList",
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          name: 1,
           age: 1,
+          email: 1,
+          // roleList: 1,
+          // perList: 1,
+          "roleList.name": 1,
+          "roleList.description": 1,
+          "roleList.permission": 1,
+          "permissionList.name": 1,
+          "permissionList.description": 1,
+          "permissionList.permission": 1,
         },
       },
       {
@@ -196,20 +212,32 @@ const UserController = {
       });
     } catch (error) {
       console.log(error);
-      return res.status(400).json({
+      return res.status(500).json({
         message: "loi",
       });
     }
   },
   handleSearch: async (req, res) => {
     const [page, lim] = [0, 10];
-    const { info } = req.params;
+    const { name, age, email } = req.body;
+    let condition = {};
+    if (name !== "") {
+      condition.name = name;
+    }
+    if (age > 0) {
+      condition.age = age;
+    }
+    if (email !== "") {
+      condition.email = email;
+    }
+    // console.log(condition);
     const pipeline = [
+      { $match: condition },
       {
         $project: {
           name: 1,
           age: 1,
-          address: 1,
+          email: 1,
         },
       },
       {
@@ -226,14 +254,18 @@ const UserController = {
     ];
     try {
       const data = await User.aggregate(pipeline);
-      console.log(data.length);
+      if (data.length == 0) {
+        return res.status(404).json({
+          message: "Khong tim thay user",
+        });
+      }
       return res.status(200).json({
         tong_so_document: data.length,
         data: data,
       });
     } catch (error) {
       console.log(error);
-      return res.status(400).json({
+      return res.status(500).json({
         message: "loi",
       });
     }

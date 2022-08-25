@@ -7,7 +7,7 @@ const PermissionController = {
       return res.status(200).json(newPermission);
     } catch (error) {
       console.log(error);
-      return res.status(400).json({
+      return res.status(500).json({
         message: "Loi",
       });
     }
@@ -23,7 +23,7 @@ const PermissionController = {
       });
     } catch (error) {
       console.log(error);
-      return res.status(400).json({
+      return res.status(500).json({
         message: "loi",
       });
     }
@@ -39,7 +39,7 @@ const PermissionController = {
       });
     } catch (error) {
       console.log(error);
-      return res.status(400).json({
+      return res.status(500).json({
         message: "loi",
       });
     }
@@ -55,7 +55,7 @@ const PermissionController = {
       });
     } catch (error) {
       console.log(error);
-      return res.status(400).json({
+      return res.status(500).json({
         message: "loi",
       });
     }
