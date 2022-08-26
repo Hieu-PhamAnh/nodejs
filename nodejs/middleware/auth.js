@@ -4,7 +4,13 @@ const verifiyToken = (req, res, next) => {
   const { accessToken } = req.body;
   try {
     jwt.verify(accessToken, process.env.SECRET_KEY_ACCESS, (err, payload) => {
-      if (err) {
+      if (err.name == "TokenExpiredError") {
+        res.status(403).json({
+          message: "token het han",
+          err: err,
+        });
+      }
+      if (err.name == "JsonWebTokenError") {
         res.status(403).json({
           message: "token khong hop le",
           err: err,
