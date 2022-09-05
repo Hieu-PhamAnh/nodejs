@@ -22,7 +22,7 @@ const refreshToken = (req, res) => {
           { _id: id },
           process.env.SECRET_KEY_REFRESH,
           {
-            expiresIn: parseInt(process.env.REFRESH_TOKEN_EXPIRE || 10) * 90,
+            expiresIn: parseInt(process.env.REFRESH_TOKEN_EXPIRE || 10) * 60,
           }
         );
         const token = await Token.findOneAndUpdate(
