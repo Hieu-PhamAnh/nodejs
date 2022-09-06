@@ -3,11 +3,10 @@ const RoleController = {
   handleCreate: async (req, res) => {
     try {
       const newRole = await Role.create(req.body);
-      await newRole.save();
       return res.status(200).json(newRole);
     } catch (error) {
       console.log(error);
-      return res.status(400).json({
+      return res.status(500).json({
         message: "Loi",
       });
     }
@@ -15,15 +14,18 @@ const RoleController = {
   handleGet: async (req, res) => {
     try {
       const { id } = req.params;
+      // console.log(req.query);
       const data = await Role.findById(id);
       return res.status(200).json({
         message: "thanh cong",
         id: id,
-        user: data,
+        role: data,
+        param: req.params,
+        query: req.query,
       });
     } catch (error) {
       console.log(error);
-      return res.status(400).json({
+      return res.status(500).json({
         message: "loi",
       });
     }
@@ -39,7 +41,7 @@ const RoleController = {
       });
     } catch (error) {
       console.log(error);
-      return res.status(400).json({
+      return res.status(500).json({
         message: "loi",
       });
     }
@@ -55,7 +57,7 @@ const RoleController = {
       });
     } catch (error) {
       console.log(error);
-      return res.status(400).json({
+      return res.status(500).json({
         message: "loi",
       });
     }
