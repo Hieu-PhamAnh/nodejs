@@ -9,7 +9,7 @@ const refreshToken = async (req, res) => {
       process.env.SECRET_KEY_REFRESH
       // async (err, payload) => {
       //   if (err) {
-      //     res.status(403).json({
+      //     res.status(401).json({
       //       message: "token khong hop le",
       //       err: err,
       //     });
@@ -36,10 +36,14 @@ const refreshToken = async (req, res) => {
       //   });
       // }
     );
-    console.log(response.payload);
+    console.log(response);
+    return res.status(200).json({
+      payload: response,
+    });
   } catch (error) {
-    return res.status(500).json({
-      message: error,
+    return res.status(401).json({
+      message: "token khong hop le",
+      error: error,
     });
   }
 };
