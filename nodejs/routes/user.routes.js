@@ -26,7 +26,7 @@ userRouter.post(
 );
 userRouter.post(
   "/query-age-add/",
-  authMiddleware,
+  authMiddleware.refreshToken,
   UserController.handleQueryAgeAddress
 );
 userRouter.post("/query-role/", UserController.handleGetAllAtt);

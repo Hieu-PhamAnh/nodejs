@@ -11,7 +11,7 @@
 // };
 const User = require("../models/User");
 const Token = require("../models/Token");
-const tokenHelper = require("../helper/token.helper");
+const { spawnToken } = require("../services/auth.service");
 const jwt = require("jsonwebtoken");
 const UserController = {
   handleCreate: async (req, res) => {
@@ -108,16 +108,6 @@ const UserController = {
           message: "sai mat khau",
         });
       }
-      const accessToken = jwt.sign(
-        { _id: user._id },
-        process.env.SECRET_KEY_ACCESS,
-        { expiresIn: parseInt(process.env.ACCESS_TOKEN_EXPIRE || 10) * 60 }
-      );
-      const refreshToken = jwt.sign(
-        { _id: user._id },
-        process.env.SECRET_KEY_REFRESH,
-        { expiresIn: parseInt(process.env.REFRESH_TOKEN_EXPIRE || 10) * 60 }
-      );
       const newToken = await Token.create({
         userID: user._id,
         token: refreshToken,
