@@ -10,6 +10,9 @@
 //   }
 // };
 const User = require("../models/User");
+const Token = require("../models/Token");
+const tokenHelper = require("../helper/token.helper");
+const jwt = require("jsonwebtoken");
 const UserController = {
   handleCreate: async (req, res) => {
     try {
@@ -105,8 +108,24 @@ const UserController = {
           message: "sai mat khau",
         });
       }
+      const accessToken = jwt.sign(
+        { _id: user._id },
+        process.env.SECRET_KEY_ACCESS,
+        { expiresIn: parseInt(process.env.ACCESS_TOKEN_EXPIRE || 10) * 60 }
+      );
+      const refreshToken = jwt.sign(
+        { _id: user._id },
+        process.env.SECRET_KEY_REFRESH,
+        { expiresIn: parseInt(process.env.REFRESH_TOKEN_EXPIRE || 10) * 60 }
+      );
+      const newToken = await Token.create({
+        userID: user._id,
+        token: refreshToken,
+      });
       return res.status(200).json({
         message: "dang nhap thanh cong",
+        accessToken: accessToken,
+        refreshToken: refreshToken,
         //data: user,
       });
     } catch (error) {
@@ -267,6 +286,28 @@ const UserController = {
       console.log(error);
       return res.status(500).json({
         message: "loi",
+      });
+    }
+  },
+  refreshToken: (req, res) => {
+    const { refreshToken } = req.body;
+    try {
+      jwt.verify(
+        refreshToken,
+        process.env.SECRET_KEY_REFRESH,
+        (err, payload) => {
+          if (err) {
+            res.status(403).json({
+              message: "token khong hop le",
+              err: err,
+            });
+          }
+          console.log(payload);
+        }
+      );
+    } catch (error) {
+      return res.status(500).json({
+        message: error,
       });
     }
   },

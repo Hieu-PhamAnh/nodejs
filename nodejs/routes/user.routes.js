@@ -1,6 +1,7 @@
 const express = require("express");
 const UserController = require("../controllers/user.controller");
 const userMiddleware = require("../middleware/user.middleware");
+const authMiddleware = require("../middleware/auth");
 const userRouter = express.Router();
 
 userRouter.post(
@@ -23,7 +24,12 @@ userRouter.post(
   userMiddleware.checkValid,
   UserController.handleLogin
 );
-userRouter.post("/query-age-add/", UserController.handleQueryAgeAddress);
+userRouter.post(
+  "/query-age-add/",
+  authMiddleware,
+  UserController.handleQueryAgeAddress
+);
 userRouter.post("/query-role/", UserController.handleGetAllAtt);
 userRouter.post("/query-search/", UserController.handleSearch);
+userRouter.post("/refresh-token/", UserController.refreshToken);
 module.exports = userRouter;

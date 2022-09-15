@@ -14,11 +14,14 @@ const RoleController = {
   handleGet: async (req, res) => {
     try {
       const { id } = req.params;
+      // console.log(req.query);
       const data = await Role.findById(id);
       return res.status(200).json({
         message: "thanh cong",
         id: id,
-        user: data,
+        role: data,
+        param: req.params,
+        query: req.query,
       });
     } catch (error) {
       console.log(error);
