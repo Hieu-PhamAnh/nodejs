@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-
+const { spawnToken } = require("../services/auth.service");
 const authMiddleware = {
   verifiyToken: (req, res, next) => {
     const auth = req.headers.authorization;

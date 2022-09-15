@@ -3,6 +3,7 @@ const Token = require("../models/Token");
 const jwt = require("jsonwebtoken");
 
 const spawnToken = async (user) => {
+  // let token = {};
   const accessToken = jwt.sign(
     { _id: user._id },
     process.env.SECRET_KEY_ACCESS,
@@ -23,6 +24,7 @@ const spawnToken = async (user) => {
     refreshToken: refreshToken,
     refreshExpriseAt: Date.now() + Number(process.env.REFRESH_TOKEN_EXPIRE),
   };
+  // console.log(token);
   return token;
 };
 
