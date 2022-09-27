@@ -108,12 +108,11 @@ const UserController = {
           message: "sai mat khau",
         });
       }
-      // console.log(spawnToken(user));
       const token = await spawnToken(user);
-      // const newToken = await Token.create({
-      //   userID: user._id,
-      //   token: refreshToken,
-      // });
+      const newToken = await Token.create({
+        userID: user._id,
+        token: token.refreshToken,
+      });
       return res.status(200).json({
         message: "dang nhap thanh cong",
         // accessToken: accessToken,
